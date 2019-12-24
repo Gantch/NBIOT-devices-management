@@ -40,7 +40,7 @@
 
     <properties>
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-        <netty.version>4.1.3.Final</netty.version>
+        <netty.version>4.1.44.Final</netty.version>
         <joda-time.version>2.4</joda-time.version>
         <logback.version>1.1.7</logback.version>  <!--日志框架-->
         <guava.version>18.0</guava.version> <!--Guava是一个Google的基于java1.6的类库集合的扩展项目-->
