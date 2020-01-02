@@ -1,0 +1,38 @@
+server:
+  port: 8101
+
+
+jwt:
+  tokenHeader: Authorization
+  secret: nbiot-management
+  expiration: 604800
+  tokenHead: Bearer
+
+secure:
+  ignored:
+    urls:
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /webjars/springfox-swagger-ui/**
+      - /**/v2/api-docs
+      - /api/v1/nbiot/admin/login
+      - /api/v1/nbiot/admin/register
+      - /api/v1/nbiot/device/**
+      - /druid/**
+      - /actuator/**
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+spring:
+  profiles:
+    active: dev
+
+
+
+logging:
+  level:
+    root: info
+    com.gantch.nbiotmanagement: debug
+#    file: nbiot_log.log
