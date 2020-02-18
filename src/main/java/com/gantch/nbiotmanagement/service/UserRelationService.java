@@ -1,6 +1,7 @@
 package com.gantch.nbiotmanagement.service;
 
 import com.gantch.nbiotmanagement.dto.UserMemberParam;
+import com.gantch.nbiotmanagement.dto.UserRelationParam;
 import com.gantch.nbiotmanagement.pojo.DeviceRelation;
 import com.gantch.nbiotmanagement.pojo.UserDeviceRelation;
 
@@ -14,5 +15,7 @@ import java.util.List;
 
 public interface UserRelationService {
 
-    List<DeviceRelation> getShareDeviceGroup(UserMemberParam param);
+    List<DeviceRelation> shareDevices(UserRelationParam param);
+
+    UserDeviceRelation findRelationByBinderAndBinded(int binderId, int bindedId);
 }

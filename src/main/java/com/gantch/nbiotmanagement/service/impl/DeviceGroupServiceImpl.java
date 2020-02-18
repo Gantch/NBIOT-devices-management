@@ -6,6 +6,7 @@ import com.gantch.nbiotmanagement.mapper.DeviceGroupMapper;
 import com.gantch.nbiotmanagement.mapper.DeviceMapper;
 import com.gantch.nbiotmanagement.mapper.UserMemberMapper;
 import com.gantch.nbiotmanagement.pojo.DeviceGroupRelation;
+import com.gantch.nbiotmanagement.pojo.DeviceRelation;
 import com.gantch.nbiotmanagement.pojo.Group;
 import com.gantch.nbiotmanagement.service.DeviceGroupService;
 import com.github.pagehelper.PageHelper;
@@ -35,7 +36,6 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 
     @Override
     public Integer createDeviceGroup(DeviceGroupCreateParam group) {
-//        validateMemberId(group.getCustomerId());
         if(memberMapper.selectUserMemberById(group.getCustomerId())>0){
             Group deviceGroup=new Group();
             deviceGroup.setId(UUID.randomUUID().toString());
@@ -87,6 +87,15 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
         PageHelper.startPage(pageNum,pageSize);
         if(!StringUtils.isEmpty(customerId)){
             return deviceGroupMapper.selectDeviceGroupByCustomerId(customerId);
+        }
+        return null;
+    }
+
+    @Override
+    public List<DeviceRelation> findCustomerDeviceByGroupId(String groupId, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        if(!StringUtils.isEmpty(groupId)){
+            return deviceGroupMapper.selectDeviceByGroupId(groupId);
         }
         return null;
     }

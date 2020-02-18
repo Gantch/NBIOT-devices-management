@@ -23,6 +23,7 @@ public class DevicesManagementSecurityConfig extends SecurityConfig{
     private UserAdminService userAdminService;
 
     @Bean
+    @Override
     public UserDetailsService userDetailsService(){
         return username -> userAdminService.loadUserByUsername(username);
     }

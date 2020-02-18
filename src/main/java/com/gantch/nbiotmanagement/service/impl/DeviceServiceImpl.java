@@ -90,7 +90,6 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public Integer deleteDevice(String deviceId) {
-//        deviceMapper.deleteDeviceRelationByDeviceId(deviceId);
         deviceMapper.deleteDeviceGroupRelationByDeviceId(deviceId);
         return deviceMapper.deleteDeviceByDeviceId(deviceId);
     }

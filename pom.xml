@@ -53,7 +53,7 @@
         <hutool.version>4.5.7</hutool.version>
         <swagger2.version>2.9.2</swagger2.version>
         <logstash-logback.version>4.8</logstash-logback.version>
-        <aliyun-oss.version>2.5.0</aliyun-oss.version>
+        <aliyun-oss.version>3.8.0</aliyun-oss.version>
         <druid.version>1.1.10</druid.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <beanutils.version>1.9.3</beanutils.version>

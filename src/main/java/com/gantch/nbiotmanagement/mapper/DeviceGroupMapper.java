@@ -1,6 +1,7 @@
 package com.gantch.nbiotmanagement.mapper;
 
 import com.gantch.nbiotmanagement.pojo.DeviceGroupRelation;
+import com.gantch.nbiotmanagement.pojo.DeviceRelation;
 import com.gantch.nbiotmanagement.pojo.Group;
 import org.apache.ibatis.annotations.*;
 
@@ -38,5 +39,8 @@ public interface DeviceGroupMapper {
     List<DeviceGroupRelation> selectDeviceGroupRelation(@Param("groupId")String groupId, @Param("deviceId")String deviceId);
 
     @Select("SELECT * FROM nbiot_group WHERE customer_id = #{customerId}")
-    List<Group> selectDeviceGroupByCustomerId(Integer customerId);
+    List<Group> selectDeviceGroupByCustomerId(@Param("customerId")Integer customerId);
+
+    @Select("SELECT * FROM nbiot_device_relation WHERE device_group_id = #{groupId}")
+    List<DeviceRelation> selectDeviceByGroupId(@Param("groupId")String groupId);
 }

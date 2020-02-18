@@ -45,4 +45,10 @@ public interface DeviceGroupService {
      * 根据用户Id分页查询设备组
      */
     List<Group> getCustomerGroups(Integer customerId, Integer pageSize, Integer pageNum);
+
+
+    /**
+     * 根据用户Id分页查询设备组
+     */
+    List<DeviceRelation> findCustomerDeviceByGroupId(String groupId, Integer pageSize, Integer pageNum);
 }

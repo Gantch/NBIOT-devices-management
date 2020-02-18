@@ -79,7 +79,6 @@ public class UserAdminServiceImpl implements UserAdminService {
         userAdmin.setCreateTime(new Date());
         userAdmin.setStatus(1);
         //查询是否有相同的userName
-//        userAdminMapper.selectByUsername(userAdmin.getUsername());
         userAdmin.setUsername(userAdminParam.getUsername());
         List<UserAdmin> userAdminList=userAdminMapper.selectByUsername(userAdmin.getUsername());
         if (userAdminList.size()>0){
@@ -98,7 +97,6 @@ public class UserAdminServiceImpl implements UserAdminService {
 //        UserAdmin userAdmin = new UserAdmin();
         if (!StringUtils.isEmpty(username)){
 //            userAdmin.setUsername(username);
-            //返回租户Id下前台用户
             return userAdminMapper.selectByTenantId(userAdminMapper.selectTenantIdByUsername(username));
         }
         return null;

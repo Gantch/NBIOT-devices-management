@@ -21,7 +21,7 @@ public class UserDeviceRelation {
     private Integer binded;
 
     @ApiModelProperty(value = "设备组ID")
-    private String groupId;
+    private String deviceId;
 
     @ApiModelProperty(value = "分享备注")
     private String remark;

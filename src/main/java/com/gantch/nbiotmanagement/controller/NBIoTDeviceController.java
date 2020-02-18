@@ -56,19 +56,12 @@ public class NBIoTDeviceController extends BaseController{
         return CommonResult.success(countMap);
     }
 
-    @ApiOperation(value = "设备组主人分享设备组给他人")
-    @RequestMapping(value = "/shareDeviceGroup",method = RequestMethod.POST)
-    public CommonResult shareDeviceGroup(@RequestBody UserMemberParam param){
+
+    @ApiOperation(value = "设备主人分享设备给他人")
+    @RequestMapping(value = "/shareDevices",method =RequestMethod.POST)
+    public CommonResult shareDevices(@RequestBody UserRelationParam param){
         return CommonResult.failed();
     }
-
-
-    @ApiOperation(value = "获取被分享的设备组")
-    @RequestMapping(value = "/getShareDeviceGroup",method = RequestMethod.POST)
-    public CommonResult getShareDeviceGroup(@RequestBody DeviceCreateParam createParam){
-        return CommonResult.failed();
-    }
-
 
     @ApiOperation(value = "根据groupId删除设备组与设备")
     @RequestMapping(value = "/deleteDeviceGroup/{groupId}",method = RequestMethod.DELETE)
@@ -214,12 +207,22 @@ public class NBIoTDeviceController extends BaseController{
     }
 
     @ApiOperation("根据用户Id获取用户下设备组")
-    @RequestMapping(value = "customerGroups",method = RequestMethod.GET)
+    @RequestMapping(value = "/group/customerGroups",method = RequestMethod.GET)
     public CommonResult<CommonPage<Group>> customerGroups(@RequestParam(value = "customerId",required = false) Integer customerId,
                                                           @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                           @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum){
         List<Group> customerGroups = groupService.getCustomerGroups(customerId,pageSize,pageNum);
         return CommonResult.success(CommonPage.restPage(customerGroups));
     }
+
+    @ApiOperation("根据设备组ID查找设备组下设备")
+    @RequestMapping(value = "/group/getCustomerDeviceByGroupId",method = RequestMethod.GET)
+    public CommonResult<CommonPage<DeviceRelation>> getCustomerDeviceByGroupId(@RequestParam(value = "groupId",required = false) String customerId,
+                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum){
+        List<DeviceRelation> customerGroups = groupService.findCustomerDeviceByGroupId(customerId,pageSize,pageNum);
+        return CommonResult.success(CommonPage.restPage(customerGroups));
+    }
+
 
 }

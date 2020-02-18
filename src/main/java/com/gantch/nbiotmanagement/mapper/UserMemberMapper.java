@@ -26,7 +26,4 @@ public interface UserMemberMapper {
     @Select("SELECT id FROM user_member WHERE phone = #{phone}")
     Integer selectUserCustomerIdByPhone(@Param("phone")String phone);
 
-    @Select("SELECT * FROM user_device_relation WHERE binded = #{binded}")
-    List<UserDeviceRelation> selectUserDeviceRelationByBinded(@Param("binded")Integer binded);
-
 }
