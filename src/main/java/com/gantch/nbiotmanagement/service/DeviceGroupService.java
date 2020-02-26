@@ -22,7 +22,6 @@ public interface DeviceGroupService {
      */
     Integer createDeviceGroup(DeviceGroupCreateParam group);
 
-
     /**
      * 分配设备组与设备关系
      * @param deviceGroupRelationParam
@@ -37,6 +36,18 @@ public interface DeviceGroupService {
     Integer deleteDeviceGroup(String groupId);
 
     /**
+     * 通过GroupId查找设备组下所有安装地址
+     * @param groupId
+     * @return
+     */
+    String findCustomerGroupDeviceSetUpAddressByGroupId(String groupId);
+
+    /**
+     * 通过GroupId获取设备总数
+     */
+//    Integer findCustomerGroupDeviceCount(String groupId);
+
+    /**
      * 根据租户Id分页查询设备组
      */
     List<Group> list(Integer tenantId, Integer pageSize, Integer pageNum);
@@ -46,9 +57,10 @@ public interface DeviceGroupService {
      */
     List<Group> getCustomerGroups(Integer customerId, Integer pageSize, Integer pageNum);
 
-
     /**
      * 根据用户Id分页查询设备组
      */
     List<DeviceRelation> findCustomerDeviceByGroupId(String groupId, Integer pageSize, Integer pageNum);
+
+
 }

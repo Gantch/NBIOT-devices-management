@@ -108,7 +108,7 @@ public class NBIoTDeviceController extends BaseController{
     @RequestMapping(value = "/addAlarmPhoneNumber",method = RequestMethod.POST)
     public CommonResult addAlarmPhoneNumber(@RequestBody DeviceMessageParam param){
             Integer count = messageService.insertDeviceMessage(param);
-            if (count!=null ){//
+            if (count!=null){
                 Map<String, Integer> countMap = new HashMap<>();
                 countMap.put("count", count);
                 return CommonResult.success(countMap,"Add PhoneNumber Success");
@@ -217,11 +217,20 @@ public class NBIoTDeviceController extends BaseController{
 
     @ApiOperation("根据设备组ID查找设备组下设备")
     @RequestMapping(value = "/group/getCustomerDeviceByGroupId",method = RequestMethod.GET)
-    public CommonResult<CommonPage<DeviceRelation>> getCustomerDeviceByGroupId(@RequestParam(value = "groupId",required = false) String customerId,
+    public CommonResult<CommonPage<DeviceRelation>> getCustomerDeviceByGroupId(@RequestParam(value = "groupId",required = false) String groupId,
                                                           @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                           @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum){
-        List<DeviceRelation> customerGroups = groupService.findCustomerDeviceByGroupId(customerId,pageSize,pageNum);
+        List<DeviceRelation> customerGroups = groupService.findCustomerDeviceByGroupId(groupId,pageSize,pageNum);
         return CommonResult.success(CommonPage.restPage(customerGroups));
+    }
+
+    @ApiOperation("根据设备组ID查找设备组下设备的安装地址")
+    @RequestMapping(value = "/group/getGroupDeviceSetupAddress/{groupId}",method = RequestMethod.GET)
+    public CommonResult getGroupDeviceSetUpAddress(@PathVariable(value = "groupId") String groupId){
+        String setUpAddress = groupService.findCustomerGroupDeviceSetUpAddressByGroupId(groupId);
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("setUpAddress", setUpAddress);
+        return CommonResult.success(resultMap);
     }
 
 

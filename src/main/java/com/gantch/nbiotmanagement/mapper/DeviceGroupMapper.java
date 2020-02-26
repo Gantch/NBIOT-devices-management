@@ -22,9 +22,8 @@ public interface DeviceGroupMapper {
     @Insert("INSERT INTO nbiot_group_relation(group_id,device_id) VALUES (#{groupId},#{deviceId})")
     Integer insertDeviceGroupRelation(@Param("groupId")String groupId,@Param("deviceId")String deviceId);
 
-//    @Delete("DELETE nbiot_device_relation,nbiot_group_relation FROM nbiot_device_relation " +
-//            "LEFT JOIN nbiot_group_relation ON nbiot_group_relation.device_id = nbiot_device_relation.id " +
-//            "WHERE nbiot_device_relation.id = #{deviceId}")
+    @Select("SELECT district FROM nbiot_device_relation WHERE device_group_id = #{groupId}")
+    List<String> selectGroupDeviceSetUpAddress(@Param("groupId") String groupId);
 
     @Delete("DELETE nbiot_group,nbiot_group_relation,nbiot_device_relation FROM nbiot_group " +
             "LEFT JOIN nbiot_group_relation ON nbiot_group_relation.group_id = nbiot_group.id " +

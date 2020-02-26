@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author lcw332
@@ -71,6 +72,15 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
     @Override
     public Integer deleteDeviceGroup(String groupId) {
         return deviceGroupMapper.deleteDeviceGroup(groupId);
+    }
+
+    @Override
+    public String findCustomerGroupDeviceSetUpAddressByGroupId(String groupId) {
+        List<String> result=deviceGroupMapper.selectGroupDeviceSetUpAddress(groupId);
+        //list去重，拿到新的list
+        List<String> newList=result.stream().distinct().collect(Collectors.toList());
+        String str = com.sun.deploy.util.StringUtils.join(newList,",");
+        return str;
     }
 
     @Override
