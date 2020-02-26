@@ -45,7 +45,7 @@ public interface DeviceGroupService {
     /**
      * 通过GroupId获取设备总数
      */
-//    Integer findCustomerGroupDeviceCount(String groupId);
+    Integer findCustomerGroupDeviceCount(String groupId);
 
     /**
      * 根据租户Id分页查询设备组

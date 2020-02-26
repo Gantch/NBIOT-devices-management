@@ -84,6 +84,11 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
     }
 
     @Override
+    public Integer findCustomerGroupDeviceCount(String groupId) {
+        return deviceGroupMapper.selectGroupDeviceCountByGroupId(groupId);
+    }
+
+    @Override
     public List<Group> list(Integer tenantId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
         if (!StringUtils.isEmpty(tenantId)){

@@ -25,6 +25,9 @@ public interface DeviceGroupMapper {
     @Select("SELECT district FROM nbiot_device_relation WHERE device_group_id = #{groupId}")
     List<String> selectGroupDeviceSetUpAddress(@Param("groupId") String groupId);
 
+    @Select("SELECT COUNT(*) FROM nbiot_device_relation WHERE device_group_id = #{groupId}")
+    Integer selectGroupDeviceCountByGroupId(@Param("groupId")String groupId);
+
     @Delete("DELETE nbiot_group,nbiot_group_relation,nbiot_device_relation FROM nbiot_group " +
             "LEFT JOIN nbiot_group_relation ON nbiot_group_relation.group_id = nbiot_group.id " +
             "LEFT JOIN nbiot_device_relation ON nbiot_device_relation.device_group_id = nbiot_group.id " +

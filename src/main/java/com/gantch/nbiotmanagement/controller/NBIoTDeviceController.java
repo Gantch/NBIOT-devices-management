@@ -224,12 +224,14 @@ public class NBIoTDeviceController extends BaseController{
         return CommonResult.success(CommonPage.restPage(customerGroups));
     }
 
-    @ApiOperation("根据设备组ID查找设备组下设备的安装地址")
-    @RequestMapping(value = "/group/getGroupDeviceSetupAddress/{groupId}",method = RequestMethod.GET)
+    @ApiOperation("根据设备组ID查找设备组下设备的安装地址、设备总数")
+    @RequestMapping(value = "/group/getGroupDeviceSetupAddressAndCount/{groupId}",method = RequestMethod.GET)
     public CommonResult getGroupDeviceSetUpAddress(@PathVariable(value = "groupId") String groupId){
         String setUpAddress = groupService.findCustomerGroupDeviceSetUpAddressByGroupId(groupId);
-        Map<String, String> resultMap = new HashMap<>();
+        Integer deviceCount = groupService.findCustomerGroupDeviceCount(groupId);
+        Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("setUpAddress", setUpAddress);
+        resultMap.put("deviceCount", deviceCount);
         return CommonResult.success(resultMap);
     }
 
