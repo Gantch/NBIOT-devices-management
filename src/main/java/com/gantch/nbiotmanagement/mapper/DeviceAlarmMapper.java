@@ -20,4 +20,8 @@ public interface DeviceAlarmMapper {
 
     @Select("SELECT * FROM nbiot_alarm_log WHERE TO_DAYS(NOW())-TO_DAYS(timestamp) = 1 AND tenant_id = #{tenantId}")
     List<DeviceAlarmLog> selectAlarmYesTodayByTenantId(Integer tenantId);
+
+    @Select("SELECT * FROM nbiot_alarm_log WHERE DATE_SUB(CURDATE(), INTERVAL 60 DAY) <= date(timestamp) AND deviceId = #{deviceId}")
+    List<DeviceAlarmLog> selectAlarmWeeksByDeviceId(String deviceId);
+
 }

@@ -1,5 +1,7 @@
 package com.gantch.nbiotmanagement.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.gantch.nbiotmanagement.common.CommonResult;
 import com.gantch.nbiotmanagement.dto.DeviceCreateParam;
 import com.gantch.nbiotmanagement.dto.DeviceUpdateParam;
 import com.gantch.nbiotmanagement.mapper.DeviceAlarmMapper;
@@ -40,12 +42,13 @@ public class DeviceServiceImpl implements DeviceService {
     private UserMemberMapper memberMapper;
 
     @Override
-    public Integer createDeviceByMac(DeviceCreateParam createParam) {
+    public String createDeviceByMac(DeviceCreateParam createParam) {
             if(memberMapper.selectUserMemberById(createParam.getCustomerId())<0) {
                 System.out.println(memberMapper.selectUserMemberById(createParam.getCustomerId()));
                 return null;
             }//验证用户ID是否存在
-            Device deviceByMac = deviceMapper.selectDeviceByMac(createParam.getMac());//验证MAC地址是否在nbiot_device存在
+            //验证MAC地址是否在nbiot_device存在
+            Device deviceByMac = deviceMapper.selectDeviceByMac(createParam.getMac());
             System.out.println(deviceByMac);
             if (deviceByMac.getMac() == null) {
                 return null;
@@ -57,14 +60,15 @@ public class DeviceServiceImpl implements DeviceService {
                     deviceByMac.getModel(),groupId,createParam.getLatitude(),createParam.getLongitude(),createParam.getDistrict(),
                     createParam.getLocation(),new Timestamp(System.currentTimeMillis()));
             System.out.println(relation);
-            String selectRelation = deviceMapper.selectDeviceRelation(deviceByMac.getDeviceId());//验证是否在nbiot_device_relation中有绑定关系
-            if (selectRelation ==null){//如果没有绑定关系
+            //验证是否在nbiot_device_relation中有绑定关系
+            String selectRelation = deviceMapper.selectDeviceRelation(deviceByMac.getDeviceId());
+            //如果没有绑定关系
+            if (selectRelation ==null){
                 Integer result=deviceMapper.insertDeviceRelationByCustomerId(relation);
                 if (result>0) {
-                    return result;
+                    return deviceMapper.selectDeviceRelationByMac(relation.getMac());
                 }
             }
-
         return null;
     }
 
@@ -125,12 +129,36 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<DeviceRelation> getCustomerDevices(Integer customer, Integer pageSize, Integer pageNum) {
+    public List<DeviceRelation> getCustomerDevices(Integer customerId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        if (!StringUtils.isEmpty(customer)){
-            return deviceMapper.selectDeviceRelationByCustomerId(customer);
+        if (!StringUtils.isEmpty(customerId)){
+            System.out.println("走进来了");
+            return deviceMapper.selectDeviceRelationByCustomerId(customerId);
         }
+        System.out.println("我返回为空");
         return null;
+    }
+
+    @Override
+    public CommonResult completeDeviceInfo(String deviceId, Double latitude, Double longitude, String district, String location) {
+        if (!StrUtil.hasBlank(deviceId)){
+            if (StrUtil.isNotEmpty(deviceMapper.selectDeviceRelation(deviceId))){
+                deviceMapper.updateDeviceInfoByDeviceId(deviceId,latitude,longitude,district,location);
+                return CommonResult.success("修改成功");
+            }
+            return CommonResult.failed("未找到该设备");
+        }
+        return CommonResult.failed("添加失败,请完善参数");
+    }
+
+    @Override
+    public Integer batchUploadDeviceInfo() {
+        return null;
+    }
+
+    @Override
+    public List<DeviceAlarmLog> getLatestMessage(String deviceId) {
+        return alarmMapper.selectAlarmWeeksByDeviceId(deviceId);
     }
 
 }

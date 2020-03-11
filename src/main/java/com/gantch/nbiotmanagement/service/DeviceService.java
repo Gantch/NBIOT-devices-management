@@ -1,7 +1,9 @@
 package com.gantch.nbiotmanagement.service;
 
+import com.gantch.nbiotmanagement.common.CommonResult;
 import com.gantch.nbiotmanagement.dto.DeviceCreateParam;
 import com.gantch.nbiotmanagement.dto.DeviceUpdateParam;
+import com.gantch.nbiotmanagement.pojo.DeviceAlarmLog;
 import com.gantch.nbiotmanagement.pojo.DeviceRelation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +19,8 @@ public interface DeviceService {
     /**
      * 根据前台用户传入的MAC地址查找数据库并创建设备
      */
-    Integer createDeviceByMac(DeviceCreateParam createParam);
+    @Transactional
+    String createDeviceByMac(DeviceCreateParam createParam);
 
     /**
      * 根据租户Id分页查询设备
@@ -63,5 +66,21 @@ public interface DeviceService {
     /**
      * 根据用户Id分页查询设备
      */
-    List<DeviceRelation> getCustomerDevices(Integer customer,Integer pageSize,Integer pageNum);
+    List<DeviceRelation> getCustomerDevices(Integer customerId,Integer pageSize,Integer pageNum);
+
+    /**
+     * 完善设备信息
+     */
+    CommonResult completeDeviceInfo(String deviceId, Double latitude, Double longitude, String district, String location);
+
+    /**
+     * 批量上传数据
+     */
+    Integer batchUploadDeviceInfo();
+
+    /**
+     * 根据DeviceId查询最近7天内最新消息
+     */
+    List<DeviceAlarmLog> getLatestMessage(String deviceId);
+
 }

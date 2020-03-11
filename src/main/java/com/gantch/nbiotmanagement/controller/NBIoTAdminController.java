@@ -31,7 +31,7 @@ import java.util.Map;
  **/
 @RestController
 @Api(tags = "NBIoTAdminController",description = "用户模块")
-@RequestMapping("/api/v1/nbiot/admin")
+@RequestMapping("/api/v1/nbiot/management/admin")
 public class NBIoTAdminController {
 
     @Autowired

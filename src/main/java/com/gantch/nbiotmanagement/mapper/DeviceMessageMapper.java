@@ -25,4 +25,7 @@ public interface DeviceMessageMapper {
 
     @Update("UPDATE nbiot_device_message SET status =#{status} WHERE device_id = #{deviceId}")
     Integer updateDeviceMessageStatusByDeviceId(@Param("status")Integer status,@Param("deviceId")String deviceId);
+
+    @Select("SELECT phone from nbiot_device_message WHERE device_id = #{deviceId}")
+    List<String> selectAlarmPhoneByDeviceId(@Param("deviceId")String deviceId);
 }

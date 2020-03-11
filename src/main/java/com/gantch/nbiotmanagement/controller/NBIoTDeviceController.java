@@ -1,5 +1,7 @@
 package com.gantch.nbiotmanagement.controller;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.mail.InternalMailUtil;
 import com.gantch.nbiotmanagement.common.CommonPage;
 import com.gantch.nbiotmanagement.common.CommonResult;
 import com.gantch.nbiotmanagement.dto.*;
@@ -25,7 +27,7 @@ import java.util.Map;
  **/
 @RestController
 @Api(tags = "NBIoTDeviceController",description = "设备管理接口")
-@RequestMapping("/api/v1/nbiot/device")
+@RequestMapping("/api/v1/nbiot/management/device")
 public class NBIoTDeviceController extends BaseController{
 
     @Autowired
@@ -41,11 +43,33 @@ public class NBIoTDeviceController extends BaseController{
     @ApiOperation(value = "新建设备")
     @RequestMapping(value = "/createDevice",method = RequestMethod.POST)
     public CommonResult createDevice(@RequestBody DeviceCreateParam createParam){
-            if (deviceService.createDeviceByMac(createParam)!=null){
-                 return CommonResult.success(deviceService.createDeviceByMac(createParam));
+        String deviceId = deviceService.createDeviceByMac(createParam);
+            if (deviceId!=null){
+                Map<String, String> deviceMap = new HashMap<>();
+                deviceMap.put("deviceId", deviceId);
+                 return CommonResult.success(deviceMap);
             }
         return CommonResult.failed("Repeatedly add or fail to find device MAC");
     }
+
+
+    @ApiOperation(value = "获取报警电话")
+    @RequestMapping(value = "/getAlarmPhone/{deviceId}",method = RequestMethod.GET)
+    public CommonResult getAlarmPhone(@PathVariable(value = "deviceId") String deviceId){
+        return messageService.findAlarmPhoneNumber(deviceId);
+    }
+
+
+    @ApiOperation(value = "完善设备信息")
+    @RequestMapping(value = "/completeDeviceInfo",method = RequestMethod.POST)
+    public CommonResult completeDeviceInfo(@RequestParam("deviceId")String id,
+                                           @RequestParam("latitude")Double latitude,
+                                           @RequestParam("longitude")Double longitude,
+                                           @RequestParam("district")String district,
+                                           @RequestParam("location")String location){
+        return deviceService.completeDeviceInfo(id,latitude,longitude,district,location);
+    }
+
 
     @ApiOperation(value = "根据deviceId删除设备、设备与设备组关系")
     @RequestMapping(value = "/deleteDevice/{deviceId}",method = RequestMethod.DELETE)
@@ -235,5 +259,10 @@ public class NBIoTDeviceController extends BaseController{
         return CommonResult.success(resultMap);
     }
 
+//    @ApiOperation("批量上传设备信息")
+//    public CommonResult customerBatchUploadDeviceInfo(){
+//
+//        return CommonResult.failed();
+//    }
 
 }

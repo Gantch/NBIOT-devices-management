@@ -4,7 +4,7 @@ server:
 jwt:
   tokenHeader: Authorization
   secret: nbiot-management
-  expiration: 604800
+  expiration: 604800 #Token的有效期为7天
   tokenHead: Bearer
 
 secure:
@@ -15,10 +15,11 @@ secure:
       - /swagger/**
       - /webjars/springfox-swagger-ui/**
       - /**/v2/api-docs
-      - /api/v1/nbiot/admin/login
-      - /api/v1/nbiot/admin/register
-      - /api/v1/nbiot/device/**
-      - /api/v1/nbiot/device/group/**
+      - /api/v1/nbiot/management/admin/login
+      - /api/v1/nbiot/management/admin/register
+      - /api/v1/nbiot/management/device/**
+      - /api/v1/nbiot/management/device/group/**
+      - /api/v1/nbiot/device/nbwebsokcet
       - /druid/**
       - /actuator/**
       - /**/*.js
@@ -29,6 +30,9 @@ spring:
   profiles:
     active: dev
 
+
+file:
+  base-path: D:\Gantch\userUpload\
 
 logging:
   level:

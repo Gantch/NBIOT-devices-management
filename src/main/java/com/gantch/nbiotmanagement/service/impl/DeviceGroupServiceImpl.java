@@ -1,5 +1,6 @@
 package com.gantch.nbiotmanagement.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.gantch.nbiotmanagement.dto.DeviceGroupCreateParam;
 import com.gantch.nbiotmanagement.dto.DeviceGroupRelationParam;
 import com.gantch.nbiotmanagement.mapper.DeviceGroupMapper;
@@ -10,9 +11,9 @@ import com.gantch.nbiotmanagement.pojo.DeviceRelation;
 import com.gantch.nbiotmanagement.pojo.Group;
 import com.gantch.nbiotmanagement.service.DeviceGroupService;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -79,7 +80,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
         List<String> result=deviceGroupMapper.selectGroupDeviceSetUpAddress(groupId);
         //list去重，拿到新的list
         List<String> newList=result.stream().distinct().collect(Collectors.toList());
-        String str = com.sun.deploy.util.StringUtils.join(newList,",");
+        String str = StringUtils.join(newList,",");
         return str;
     }
 
@@ -91,7 +92,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
     @Override
     public List<Group> list(Integer tenantId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        if (!StringUtils.isEmpty(tenantId)){
+        if (!StrUtil.isEmpty(tenantId.toString())){
             return deviceGroupMapper.selectDeviceGroupByTenant(tenantId);
         }
         return null;
@@ -100,7 +101,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
     @Override
     public List<Group> getCustomerGroups(Integer customerId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        if(!StringUtils.isEmpty(customerId)){
+        if(!StrUtil.isEmpty(customerId.toString())){
             return deviceGroupMapper.selectDeviceGroupByCustomerId(customerId);
         }
         return null;

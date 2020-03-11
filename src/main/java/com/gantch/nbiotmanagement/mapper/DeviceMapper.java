@@ -2,6 +2,7 @@ package com.gantch.nbiotmanagement.mapper;
 
 import com.gantch.nbiotmanagement.pojo.Device;
 import com.gantch.nbiotmanagement.pojo.DeviceRelation;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -36,12 +37,23 @@ public interface DeviceMapper {
     @Update("UPDATE nbiot_device_relation SET device_group_id = #{groupId} WHERE id = #{id}")
     Integer updateDeviceRelationGroupIdByDeviceID(@Param("groupId")String groupId,@Param("id")String deviceId);
 
+    @Update("UPDATE nbiot_device_relation " +
+            "SET latitude = #{latitude} " +
+            ", longitude = #{longitude} " +
+            ", district = #{district} " +
+            ", location = #{location} " +
+            "WHERE id = #{id}")
+    Integer updateDeviceInfoByDeviceId(@Param("id")String id,@Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("district") String district, @Param("location") String location);
+
     @Update("UPDATE nbiot_device_relation SET nick_name = #{nickName} WHERE id = #{id}")
     Integer updateDeviceNickNameByDeviceId(@Param("nickName")String nickName,@Param("id")String deviceId);
 
     @Insert("INSERT INTO nbiot_device_relation(id,mac,name,nick_name,tenant_id,customer_id,device_type,model,device_group_id,latitude,longitude,district,location,create_time) VALUES (#{id},#{mac},#{name},#{nickName},#{tenantId},#{customerId},#{deviceType},#{model},#{deviceGroupId},#{latitude},#{longitude},#{district},#{location},#{createTime})")
 //    @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     Integer insertDeviceRelationByCustomerId(DeviceRelation deviceRelation);
+
+    @Select("SELECT id FROM nbiot_device_relation WHERE mac = #{mac}")
+    String selectDeviceRelationByMac(@Param("mac")String mac);
 
     @Delete("DELETE FROM nbiot_device_relation WHERE id = #{deviceId}")
     Integer deleteDeviceRelationByDeviceId(@Param("deviceId")String deviceId);
