@@ -1,6 +1,5 @@
 package com.gantch.nbiotmanagement.websocket;
 
-import com.gantch.nbiotmanagement.common.CommonResult;
 import com.gantch.nbiotmanagement.pojo.DeviceAlarmLog;
 import com.gantch.nbiotmanagement.pojo.DeviceRelation;
 import com.gantch.nbiotmanagement.service.DeviceGroupService;
@@ -55,6 +54,9 @@ public class WebSocketServer {
 
     private int customerId ;
 
+    //向客户端发送 heartMessage
+    private String heartMessage = "@heart";
+
     private List<String> deviceIdList;
     private List<DeviceAlarmLog> alarmList;
 
@@ -94,9 +96,9 @@ public class WebSocketServer {
     public void onMessage(String message, Session session)throws Exception{
         logger.info("客户端消息: " + message);
 
-        if(message.equals("@heart")) {
+        if(heartMessage.equals(message)) {
             //心跳
-            sendMessage("@heart",this.session);
+            sendMessage(heartMessage,this.session);
         }else{
             //查数据库设备信息 传入customerId 获取DeviceId再去查log
             JsonObject object = (JsonObject) new JsonParser().parse(message);

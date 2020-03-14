@@ -1,5 +1,7 @@
 package com.gantch.nbiotmanagement.pojo;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -26,6 +28,7 @@ public class DeviceAlarmLog {
     private String deviceId;
 
     @ApiModelProperty(value = "时间戳")
+    @JsonFormat(pattern = "yymm-MM-dd:mm:ss",timezone = "GMT+8")
     private Timestamp timeStamp;
 
     @ApiModelProperty(value = "设备名称")
